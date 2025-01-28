@@ -6,7 +6,8 @@ from flask_cors import CORS
 # Initialize Flask App
 App = Flask(__name__)
 # Disable Cors
-CORS(App, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(App, resources={r"/*": {"origins": "http://localhost:5173", "supports_credentials": True}})
+
 
 
 # Database Configuration

@@ -78,7 +78,7 @@ def get_contacts():
     return jsonify({"contacts": json_contacts})
 
 
-@App.route("/update_contacts/<int:user_id>", methods=["PATCH", "OPTIONS"])
+@App.route("/update_contact/<int:user_id>", methods=["PATCH", "OPTIONS"])
 def update_contact(user_id):
     if request.method == "OPTIONS":
         # Preflight response
@@ -92,7 +92,7 @@ def update_contact(user_id):
     if not contact:
         return jsonify({"message": "Contact not found"}), 404
 
-    data = request.json()
+    data = request.json
     contact.first_name = data.get("firstName", contact.first_name)
     contact.last_name = data.get("lastName", contact.last_name)
     contact.email = data.get("email", contact.email)
