@@ -17,7 +17,7 @@ if __name__ == "__main__":
     with App.app_context():
         Db.create_all()
 
-    App.run(debug=True)
+    App.run(debug=True, port=5001)
 
 # Create a new route for the application
 # This route will be used to create a new Contact
@@ -78,27 +78,30 @@ def get_contacts():
     return jsonify({"contacts": json_contacts})
 
 
-# Create a new route for the application
-# This route will be used to Update a Contact
-# PATCH Request
-@App.route("/update_contacts<int:user_id>", methods=["PATCH"])
+@App.route("/update_contacts/<int:user_id>", methods=["PATCH", "OPTIONS"])
 def update_contact(user_id):
+    if request.method == "OPTIONS":
+        # Preflight response
+        response = jsonify({"message": "CORS preflight successful"})
+        response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+        response.headers.add("Access-Control-Allow-Methods", "PATCH, OPTIONS")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response, 200
+    # Handle the PATCH request
     contact = Contact.query.get(user_id)
-
     if not contact:
         return jsonify({"message": "Contact not found"}), 404
 
-    data = request.get_json()
-    if "firstName" in data:
-        contact.first_name = data.get("firstName")
-    if "lastName" in data:    
-        contact.last_name = data.get("lastName")
-    if "email" in data:    
-        contact.email = data.get("email")
+    data = request.json()
+    contact.first_name = data.get("firstName", contact.first_name)
+    contact.last_name = data.get("lastName", contact.last_name)
+    contact.email = data.get("email", contact.email)
 
     Db.session.commit()
 
-    return jsonify({"message": "Contact has been updated!!!"}), 200
+    response = jsonify({"message": "Contact has been updated!!!"})
+    
+    return response, 200
 
 
 # Create a new route for the application
