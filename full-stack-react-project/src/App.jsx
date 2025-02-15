@@ -12,7 +12,7 @@ function App() {
   const [currentContact, setCurrentContact] = useState({})
 
 
-  // As soon as the webhook is rendered we will call the fetchContacts function
+  // As soon as the component is rendered we will call the fetchContacts function
 
   useEffect(() => {
 

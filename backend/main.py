@@ -6,18 +6,6 @@ from models import Contact
 # JSONIFY is a function in Flask that converts a Python dictionary into a JSON object
 
 # We need to run our main Flask application
-# This is the main entry point for our application
-
-if __name__ == "__main__":
-    # Database Instansiation
-    # Once application starts we need to get the context of the application
-    # Create all models in the database
-    # This only works if they have not been created yet
-
-    with App.app_context():
-        Db.create_all()
-
-    App.run(debug=True, port=5001)
 
 # Create a new route for the application
 # This route will be used to create a new Contact
@@ -25,7 +13,7 @@ if __name__ == "__main__":
 @App.route("/create_contact", methods=["POST"])
 def create_contact():
 
-    # We first need to get the data associated with the 
+    # We first need to get the data associatedflas with the 
     data = request.get_json()
     first_name = data.get("firstName")
     last_name = data.get("lastName")
@@ -123,3 +111,16 @@ def delete_contact(user_id):
 @App.route('/', methods=['GET'])
 def home():
     return "Hello! Welcome to the Full-Stack Contact Web Application!!!"
+
+# This is the main entry point for our application
+
+if __name__ == "__main__":
+    # Database Instansiation
+    # Once application starts we need to get the context of the application
+    # Create all models in the database
+    # This only works if they have not been created yet
+
+    with App.app_context():
+        Db.create_all()
+
+    App.run(debug=True, port=5001)
