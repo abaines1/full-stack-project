@@ -3,7 +3,7 @@ import React from "react"
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
     return (
         <div> 
-            <h2> Contact List</h2>
+            <h1> Contact List</h1>
             <table>
                 <thead>
                     <tr>
