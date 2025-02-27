@@ -87,6 +87,7 @@ def update_contact(user_id):
         response.headers.add("Access-Control-Allow-Methods", "PATCH, OPTIONS")
         response.headers.add("Access-Control-Allow-Headers", "Content-Type")
         return response, 200
+    
     # Handle the PATCH request
     contact = Contact.query.get(user_id)
     if not contact:
@@ -107,8 +108,17 @@ def update_contact(user_id):
 # Create a new route for the application
 # This route will be used to delete a Contact
 # DELETE Request
-@App.route("/delete_contact<int:user_id>", methods=["DELETE"])
+@App.route("/delete_contact/<int:user_id>", methods=["DELETE", "OPTIONS"])
 def delete_contact(user_id):
+
+    if request.method == "OPTIONS":
+    # Preflight response
+        response = jsonify({"message": "CORS preflight successful"})
+        response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+        response.headers.add("Access-Control-Allow-Methods", "DELETE, OPTIONS")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response, 200
+
     contact = Contact.query.get(user_id)
 
     if not contact:
